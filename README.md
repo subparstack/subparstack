@@ -1,2 +1,2 @@
 # subparstack
-Analysis, bug tracking and documentation of Substack's sub-par webapp
+Bug tracking, discussion, analysis and documentation of [Substack's sub-par webapp](https://substack.com/).
