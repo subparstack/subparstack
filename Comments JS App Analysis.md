@@ -234,3 +234,46 @@ Just optimizing this stuff, which would be a few hours work and a few more testi
 [Here is a public Substack page with 334 comments](https://greenwald.substack.com/p/violence-in-the-capitol-dangers-in-bbe/comments) (at the time I exported it). [Here's the DOM it generates](https://fsbdoc.s3.amazonaws.com/subparstack-comments.html) exported as HTML. It has content-type `text/plain` to make it easier for your browser to display. Even so mine is having a hard time.
 
 
+## XHR activity
+
+From the network acticity console we see the comments app polling for new comments to display
+
+![Network view of XHR](https://monosnap.com/image/ZZHrYjzsLThm8cuFjA8nFRUQ6aSP81)
+
+This raises a few questions:
+
+- Why return 100 KiB of data every three seconds even when there are no changes to the comments since the last poll?
+
+- Why return these particular comments?
+
+- Why the same comments every time?
+
+- Why not return only changes since the last poll?
+
+The timing of these requests isn't really a problem for the user but suggests a design that's wasteful of resources.  Most database
+performance problems can be solved by throwing money at them (hardware and energy) but some are easily optimized with a
+change in the code. I suspect there are big gains to be made there but that's not our focus in looking at the webapp.
+
+This is the problem for us end users
+
+![initial waterfall](https://monosnap.com/image/fSUkLMTr7ZUPnFwztYmjtzZpFbyVix)
+
+That's the response on initial display of the comments section.
+
+Then I expand the comments (clicking `Load More` and `N Replies` buttons, takes a long time, and several clicks of the `Wait` button when Firefox displays  
+![Slow web page](https://monosnap.com/image/DsKcctkHeAavSKVY8MudMnMP6fCrZw)
+
+Now here's the waterfall timing while doing nothing, just letting the XHR timer do its thing.
+
+![XHR waterfall](https://monosnap.com/image/b0QVSHj9qD9Xy1l1Evzcvr0t5YXm4O)
+
+Poor browser doesn't stand a chance, does it? It's completely frozen for more than half the time.
+
+Btw: if your device is running off a battery, don't leave this browser window open.
+
+
+# Summary
+
+I only just got started and I can see a few very simple things that could be changed that might suffice to make this SPA perform acceptably.
+
+Really, I don't think this is my job. I pay to *use* Substack comments.
