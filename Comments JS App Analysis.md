@@ -4,17 +4,17 @@ TL/DR: Lots.
 
 ## It puts all visible comments into the DOM
 
-A comments page with thousands of comments is lengthy. Rendering all of them at once is demanding of the browser and device. So don't do that. 
+A comments page with thousands of comments is lengthy. Rendering all of them at once demands a lot of the browser and device. So don't do that. 
 Put into the DOM only the stuff that would be visible to the user through the viewport scrolled to its current position.
 
 How do you imagine apps like Google Photos allow me to scroll through 50 thousand pics collected over 20 years with a nice responsive UX?
 
-Substack comments is in any case a single page app so why not?
+Substack comments is a single page app so why not?
 
 ## It polls for new comments every 3 seconds
 
 Scenario: a page with thousands of comments. The user has for a while been browsing, reading, commenting, clicking 
-the `Load More` and `N Replies` buttons to fill in the gaps. The DOM is now big and complex as described above.
+the `Load_More` and `N_Replies` buttons to fill in the gaps. The DOM is now big and complex as described above.
 So the browser is already working extra hard (CPU, battery, energy) to just display it all.
 
 Then every three seconds it fetches from
@@ -223,7 +223,7 @@ I'm not sure I'm up to the task of explaining *all* the problems here but...
 
 - Why all the embedded SVG documents? It's ok to paste the same SVG a handful of times but not tens or hundreds, let alone thousands.
 - Why all the forms? The user (and therefore DOM) doesn't need a reply comment form until someone clicks a `Reply` button. Insert the form then!
-- `<a href="javascript:void(0)">` `<sigh />` really?
+- `<a href="javascript:void(0)">` really? `<sigh />` 
 - Why all the `style` attributes, like `style="position: absolute; top: -10000px; left: -10000px;"`?
 
 Just optimizing this stuff, which would be a few hours work and a few more testing, might make a big improvment.
@@ -231,12 +231,12 @@ Just optimizing this stuff, which would be a few hours work and a few more testi
 
 ## That adds up
 
-[Here is a public Substack page with 334 comments](https://greenwald.substack.com/p/violence-in-the-capitol-dangers-in-bbe/comments) (at the time I exported it). [Here's the DOM it generates](https://fsbdoc.s3.amazonaws.com/subparstack-comments.html) exported as HTML. It has content-type `text/plain` to make it easier for your browser to display. Even so mine is having a hard time.
+[Here is a public Substack page with 334 comments](https://greenwald.substack.com/p/violence-in-the-capitol-dangers-in-bbe/comments) (at the time I exported it). [Here's the DOM it generates](https://fsbdoc.s3.amazonaws.com/subparstack-comments.html) exported as HTML. It has content-type `text/plain` to make it easier for your browser to display. Even so mine is having a hard time. Try rendering it and watch performance remembering that's without any JavaScript stinking up the joint!
 
 
 ## XHR activity
 
-From the network acticity console we see the comments app polling for new comments to display
+From the network acticity console I see the comments app polling for new comments to display
 
 ![Network view of XHR](https://monosnap.com/image/ZZHrYjzsLThm8cuFjA8nFRUQ6aSP81)
 
@@ -250,20 +250,20 @@ This raises a few questions:
 
 - Why not return only changes since the last poll?
 
-The timing of these requests isn't really a problem for the user but suggests a design that's wasteful of resources.  Most database
+The timing of these requests isn't really a problem for users but suggests a design that's wasteful of resources.  Most database
 performance problems can be solved by throwing money at them (hardware and energy) but some are easily optimized with a
 change in the code. I suspect there are big gains to be made there but that's not our focus in looking at the webapp.
 
-This is the problem for us end users
+Here come the problems for end users like me:
 
 ![initial waterfall](https://monosnap.com/image/fSUkLMTr7ZUPnFwztYmjtzZpFbyVix)
 
 That's the response on initial display of the comments section.
 
-Then I expand the comments (clicking `Load More` and `N Replies` buttons, takes a long time, and several clicks of the `Wait` button when Firefox displays  
+Then I expand the comments (clicking `Load_More` and `N_Replies` buttons, takes a long time, and several clicks of the `Wait` button when Firefox displays  
 ![Slow web page](https://monosnap.com/image/DsKcctkHeAavSKVY8MudMnMP6fCrZw)
 
-Now here's the waterfall timing while doing nothing, just letting the XHR timer do its thing.
+Now here's the waterfall timing while I do nothing with the UI, I just let the XHR timer run. Actually it's an interval timer (ffs) so polling rate doesn't slow down with the browser. There's another quick and cheap way to make things better for users: slow down the XHR as needed to give the browser and user a chance at getting scheduled on the CPU.
 
 ![XHR waterfall](https://monosnap.com/image/b0QVSHj9qD9Xy1l1Evzcvr0t5YXm4O)
 
