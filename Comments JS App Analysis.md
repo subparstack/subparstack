@@ -229,3 +229,8 @@ I'm not sure I'm up to the task of explaining *all* the problems here but...
 Just optimizing this stuff, which would be a few hours work and a few more testing, might make a big improvment.
 
 
+## That adds up
+
+[Here is a public Substack page with 334 comments](https://greenwald.substack.com/p/violence-in-the-capitol-dangers-in-bbe/comments) (at the time I exported it). [Here's the DOM it generates](https://fsbdoc.s3.amazonaws.com/subparstack-comments.html) exported as HTML. It has content-type `text/plain` to make it easier for your browser to display. Even so mine is having a hard time.
+
+
