@@ -4,16 +4,16 @@ TL/DR: Lots.
 
 ## It puts all visible comments into the DOM
 
-A comments page with thousands of comments is lengthy. Displaying it is tough on the browser. So don't do that. 
+A comments page with thousands of comments is lengthy. Rendering all of them at once is demanding of the browser and device. So don't do that. 
 Put into the DOM only the stuff that would be visible to the user through the viewport scrolled to its current position.
 
-How do you imagine apps like Google Photos allow me to scroll through 50 thousand pics collected over 20 years and be nicely responsive?
+How do you imagine apps like Google Photos allow me to scroll through 50 thousand pics collected over 20 years with a nice responsive UX?
 
 Substack comments is in any case a single page app so why not?
 
 ## It polls for new comments every 3 seconds
 
-Scenario: a page with thousands of comments. The user has been browsing, reading, commenting, clicking 
+Scenario: a page with thousands of comments. The user has for a while been browsing, reading, commenting, clicking 
 the `Load More` and `N Replies` buttons to fill in the gaps. The DOM is now big and complex as described above.
 So the browser is already working extra hard (CPU, battery, energy) to just display it all.
 
@@ -24,9 +24,9 @@ Then every three seconds it fetches from
 and every response is a JSON doc of the same 246 comments. And processing every response overloads the browser and it 
 freezes. This makes the afore mentioned browsing, reading, commenting, clicking difficult.
 
-## The DOM is idiotic
+## The DOM is unnecesarily complex
 
-Let's take a look at one public comment with one reply
+Let's take a look at **one** public comment with **one** reply
 
 ```html
 <table class="comment-content">
@@ -217,11 +217,15 @@ Let's take a look at one public comment with one reply
 </table>
 ```
 
-I'm not sure I'm up to the task of explaining everything that's **OBVIOUSLY WRONG** in this but...
+This is repeated thousands of times.
+
+I'm not sure I'm up to the task of explaining *all* the problems here but...
 
 - Why all the embedded SVG documents? It's ok to paste the same SVG a handful of times but not tens or hundreds, let alone thousands.
 - Why all the forms? The user (and therefore DOM) doesn't need a reply comment form until someone clicks a `Reply` button. Insert the form then!
 - `<a href="javascript:void(0)">` `<sigh />` really?
+- Why all the `style` attributes, like `style="position: absolute; top: -10000px; left: -10000px;"`?
 
+Just optimizing this stuff, which would be a few hours work and a few more testing, might make a big improvment.
 
 
