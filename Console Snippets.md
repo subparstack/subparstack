@@ -19,11 +19,11 @@ On a busy comments page, the JS that loads more comments from the server into th
 Suspend loading new comments
 
 ```
-HELP write this snippet
+HELP me write this snippet, please!
 ```
 
 Resume loading new comments
 
 ```
-HELP write this snippet
+HELP me write this snippet, please!
 ```
