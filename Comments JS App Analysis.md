@@ -250,6 +250,14 @@ This raises a few questions:
 
 - Why not return only changes since the last poll?
 
+### UPDATE 2021-01-19
+
+> Today we're seeing much larger XHR responses. About 900 KiB. This might be part of an attempt by Substack 
+to mitigate the [email links dont work bug](https://github.com/subparstack/subparstack/issues/2)
+> 
+> ![image](https://user-images.githubusercontent.com/1178722/105082799-14f7a180-5a62-11eb-9c84-b96355582127.png)
+
+
 The timing of these requests isn't really a problem for users but suggests a design that's wasteful of resources.  Most database
 performance problems can be solved by throwing money at them (hardware and energy) but some are easily optimized with a
 change in the code. I suspect there are big gains to be made there but that's not our focus in looking at the webapp.
