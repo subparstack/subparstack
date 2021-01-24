@@ -9,7 +9,7 @@ No need to be a JS expert, just try to enter the snippet into the console (your 
 This snippet automatically clicks all the red buttons to expand more comments until there are none. It can take a long time. If the browser asks you if you want to kill it, don't, grant it more time.
 
 ```js
-while(1){n=0;document.querySelectorAll('.collapsed-reply ').forEach((e)=>{e.click();n++});if(n===0)break}
+while(1){n=0;document.querySelectorAll('.collapsed-reply').forEach((e)=>{e.click();n++});if(n===0)break}
 ```
 
 ## Suspend and resume loading more comments
