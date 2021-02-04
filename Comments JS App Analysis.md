@@ -238,7 +238,7 @@ Just optimizing this stuff, which would be a few hours work and a few more testi
 
 From the network acticity console I see the comments app polling for new comments to display
 
-![Network view of XHR](https://monosnap.com/image/ZZHrYjzsLThm8cuFjA8nFRUQ6aSP81)
+![Network view of XHR](https://user-images.githubusercontent.com/17387120/106902064-650f6e80-66c6-11eb-8e86-d0b35a0ea070.png)
 
 This raises a few questions:
 
@@ -255,7 +255,7 @@ This raises a few questions:
 > Today we're seeing much larger XHR responses. About 900 KiB. This might be part of an attempt by Substack 
 to mitigate the [email links dont work bug](https://github.com/subparstack/subparstack/issues/2)
 > 
-> ![image](https://user-images.githubusercontent.com/1178722/105082799-14f7a180-5a62-11eb-9c84-b96355582127.png)
+> ![Network XHR after 9x fetch size](https://user-images.githubusercontent.com/17387120/106902077-69d42280-66c6-11eb-942a-af57e26191d4.png)
 
 
 The timing of these requests isn't really a problem for users but suggests a design that's wasteful of resources.  Most database
@@ -264,16 +264,16 @@ change in the code. I suspect there are big gains to be made there but that's no
 
 Here come the problems for end users like me:
 
-![initial waterfall](https://monosnap.com/image/fSUkLMTr7ZUPnFwztYmjtzZpFbyVix)
+![initial waterfall](https://user-images.githubusercontent.com/17387120/106902037-5cb73380-66c6-11eb-890a-cbad50474a54.png)
 
 That's the response on initial display of the comments section.
 
 Then I expand the comments (clicking `Load_More` and `N_Replies` buttons, takes a long time, and several clicks of the `Wait` button when Firefox displays  
-![Slow web page](https://monosnap.com/image/DsKcctkHeAavSKVY8MudMnMP6fCrZw)
+![Slow web page](https://user-images.githubusercontent.com/17387120/106901997-51fc9e80-66c6-11eb-8c54-1d7f5086043f.png)
 
 Now here's the waterfall timing while I do nothing with the UI, I just let the XHR timer run. Actually it's an interval timer (ffs) so polling rate doesn't slow down with the browser. There's another quick and cheap way to make things better for users: slow down the XHR as needed to give the browser and user a chance at getting scheduled on the CPU.
 
-![XHR waterfall](https://monosnap.com/image/b0QVSHj9qD9Xy1l1Evzcvr0t5YXm4O)
+![XHR waterfall](https://user-images.githubusercontent.com/17387120/106902050-62147e00-66c6-11eb-93fa-b5ce882203c3.png)
 
 Poor browser doesn't stand a chance, does it? It's completely frozen for more than half the time.
 
