@@ -285,3 +285,12 @@ Btw: if your device is running off a battery, don't leave this browser window op
 I only just got started and I can see a few very simple things that could be changed that might suffice to make this SPA perform acceptably.
 
 Really, I don't think this is my job. I pay to *use* Substack comments.
+
+
+## UPDATE Feb 12 2021
+
+Maybe Substack has paid some attention and noticed how much we can inspect their app using the browser console. When I opened it today to expand comments I foudn this
+
+![console graphic](https://user-images.githubusercontent.com/17387120/107821549-aea52c80-6d4a-11eb-8604-82b1906e8c51.png)
+
+very cute
